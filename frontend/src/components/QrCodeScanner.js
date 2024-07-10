@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
+import { Container, Alert, Button } from 'react-bootstrap';
 
 const QrCodeScanner = () => {
   const [scanResult, setScanResult] = useState('');
@@ -41,6 +42,11 @@ const QrCodeScanner = () => {
     }
   };
 
+  const handleConfirmAttendance = async () => {
+    // Logic để xác nhận tham dự
+    alert('Attendance confirmed for ' + userInfo.name);
+  };
+
   React.useEffect(() => {
     const scanner = new Html5QrcodeScanner(
       'qr-reader',
@@ -55,29 +61,34 @@ const QrCodeScanner = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Scan QR Code</h2>
-      <div id="qr-reader" style={{ width: '500px' }}></div>
-      <div>
+    <Container className="mt-5">
+      <h2 className="text-center mb-4">Tiep Bui - POC for Joyous - Ticket QR Code Scanning System (Admin/School admin portal)</h2>
+      <p> - Note: Admin staff will need to login into Admin/School admin portal to scan QR code and confirm attendance status of the student </p>
+      <div id="qr-reader" style={{ width: '500px', margin: '0 auto' }}></div>
+      <div className="text-center mt-4">
         <h3>Scan Result:</h3>
         <p>{scanResult}</p>
       </div>
       {validationMessage && (
-        <div>
+        <Alert variant="info" className="text-center">
           <h3>Validation Message:</h3>
           <p>{validationMessage}</p>
-        </div>
+        </Alert>
       )}
       {userInfo && (
-        <div>
-          <h3>User Information:</h3>
+        <Alert variant="success" className="text-center">
+          <h3>Student Information:</h3>
           <p><strong>Name:</strong> {userInfo.name}</p>
           <p><strong>Email:</strong> {userInfo.email}</p>
           <p><strong>Phone:</strong> {userInfo.phone}</p>
           <p><strong>Event:</strong> {userInfo.event}</p>
-        </div>
+          <Button onClick={handleConfirmAttendance} className="mt-3">
+            Confirm Attendance Status
+          </Button>
+          <p className="mt-2">Please click here to confirm the attendance of this student</p>
+        </Alert>
       )}
-    </div>
+    </Container>
   );
 };
 

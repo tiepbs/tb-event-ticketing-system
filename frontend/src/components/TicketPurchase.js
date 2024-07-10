@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 const TicketPurchase = () => {
   const [event, setEvent] = useState('');
@@ -13,7 +14,7 @@ const TicketPurchase = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const decoded = jwtDecode(token);
-      setUserId(decoded.userId); // Đảm bảo rằng userId được lấy từ token
+      setUserId(decoded.userId);
     }
   }, []);
 
@@ -27,7 +28,7 @@ const TicketPurchase = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ event, name, email, phone, userId }), // Sử dụng userId từ token
+        body: JSON.stringify({ event, name, email, phone, userId }),
       });
 
       if (response.ok) {
@@ -45,46 +46,59 @@ const TicketPurchase = () => {
   };
 
   return (
-    <div>
-      <h2>Purchase Ticket</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={event}
-          onChange={(e) => setEvent(e.target.value)}
-          placeholder="Event"
-          required
-        />
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          required
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Phone"
-          required
-        />
-        <button type="submit">Purchase</button>
-      </form>
+    <Container className="mt-5">
+      <h2 className="text-center mb-4">Tiep Bui - POC for Joyous - Generate QR Code for Event Registration/Ticket Purchase (Student Portal)</h2>
+      <p>- Note: This is to demonstrate the use-case the QR Code will be generated upon event registration success</p>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formEvent">
+          <Form.Label>Event</Form.Label>
+          <Form.Control
+            type="text"
+            value={event}
+            onChange={(e) => setEvent(e.target.value)}
+            placeholder="Event"
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="formName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="formEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="formPhone">
+          <Form.Label>Phone</Form.Label>
+          <Form.Control
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone"
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="mt-3">Purchase</Button>
+      </Form>
       {qrCode && (
-        <div>
+        <Alert variant="success" className="mt-4 text-center">
           <h3>QR Code:</h3>
           <img src={qrCode} alt="QR Code" />
-        </div>
+        </Alert>
       )}
-    </div>
+    </Container>
   );
 };
 
