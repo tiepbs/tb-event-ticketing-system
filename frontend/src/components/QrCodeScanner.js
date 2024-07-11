@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { Container, Alert, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom'; // Import useHistory
 
 const QrCodeScanner = () => {
   const [scanResult, setScanResult] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
   const [userInfo, setUserInfo] = useState(null);
+  const history = useHistory(); // Use useHistory hook
 
   const onScanSuccess = async (decodedText) => {
     console.log(`Scan result: ${decodedText}`);
@@ -45,6 +47,10 @@ const QrCodeScanner = () => {
   const handleConfirmAttendance = async () => {
     // Logic để xác nhận tham dự
     alert('Attendance confirmed for ' + userInfo.name);
+  };
+
+  const handleCheckAttendanceStatus = () => {
+    history.push('/attendance-status'); // Redirect to attendance-status page
   };
 
   React.useEffect(() => {
@@ -88,6 +94,11 @@ const QrCodeScanner = () => {
           <p className="mt-2">Please click here to confirm the attendance of this student</p>
         </Alert>
       )}
+      <div className="text-center mt-4">
+        <Button onClick={handleCheckAttendanceStatus} className="mt-3">
+          Check Attendance Status Of Your Students
+        </Button>
+      </div>
     </Container>
   );
 };

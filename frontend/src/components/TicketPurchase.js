@@ -7,6 +7,7 @@ const TicketPurchase = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [eventDate, setEventDate] = useState('');
   const [qrCode, setQrCode] = useState('');
   const [userId, setUserId] = useState('');
 
@@ -28,7 +29,7 @@ const TicketPurchase = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ event, name, email, phone, userId }),
+        body: JSON.stringify({ event, name, email, phone, eventDate, userId }),
       });
 
       if (response.ok) {
@@ -87,6 +88,16 @@ const TicketPurchase = () => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Phone"
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="formEventDate">
+          <Form.Label>Event Date</Form.Label>
+          <Form.Control
+            type="date"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+            placeholder="Event Date"
             required
           />
         </Form.Group>

@@ -1,9 +1,9 @@
 const express = require('express');
-const { purchaseTicket, scanQrCode } = require('../controllers/ticketController'); // Đảm bảo import đúng
-
 const router = express.Router();
+const ticketController = require('../controllers/ticketController');
 
-router.post('/purchase', purchaseTicket);
-router.post('/scan-qr', scanQrCode);
+router.post('/purchase', ticketController.purchaseTicket);
+router.post('/scan-qr', ticketController.scanQrCode);
+router.get('/attendance-status', ticketController.getAllUsersWithAttendance);
 
 module.exports = router;
